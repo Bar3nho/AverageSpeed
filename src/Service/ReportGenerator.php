@@ -9,8 +9,15 @@ use App\Entity\TripMeasures;
 
 class ReportGenerator
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
+    /**
+     * ReportGenerator constructor.
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -31,6 +38,12 @@ class ReportGenerator
         return $outputArray;
     }
 
+    /**
+     * Performs calculations for given trip measures and returns array with mandatory data for report rows
+     * @param $tripMeasures
+     * @param Trip $trip
+     * @return array
+     */
     public function calculate($tripMeasures, Trip $trip){
         $finalRow = [];
         $distance = $avg_speed = 0;
