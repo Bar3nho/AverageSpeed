@@ -26,12 +26,13 @@ class ReportGenerator
     /**
      * @return array
      */
-    public function generateReport(){
-        $outputArray = ['headers'=>['trip','distance', 'measure interval', 'avg speed']];
+    public function generateReport()
+    {
+        $outputArray = ['headers' => ['trip', 'distance', 'measure interval', 'avg speed']];
 
         $trips = $this->entityManager->getRepository(Trip::class)->findAll();
-        foreach($trips as $trip){
-            $tripMeasures = $this->entityManager->getRepository(TripMeasures::class)->findBy(['trip'=>$trip->getId()]);
+        foreach ($trips as $trip) {
+            $tripMeasures = $this->entityManager->getRepository(TripMeasures::class)->findBy(['trip' => $trip->getId()]);
             $outputArray['values'][] = $this->calculate($tripMeasures, $trip);
         }
 
@@ -44,15 +45,16 @@ class ReportGenerator
      * @param Trip $trip
      * @return array
      */
-    public function calculate($tripMeasures, Trip $trip){
+    public function calculate($tripMeasures, Trip $trip)
+    {
         $finalRow = [];
         $distance = $avg_speed = 0;
         $measureInterval = $trip->getMeasureInterval();
 
-        if(count($tripMeasures) > 1){
+        if (count($tripMeasures) > 1) {
             $speeds = [];
-            for($i = 1; $i < count($tripMeasures); $i++){
-                $speeds[] = (3600 * ($tripMeasures[$i]->getDistance() - $tripMeasures[$i-1]->getDistance()))/$measureInterval;
+            for ($i = 1; $i < count($tripMeasures); $i++) {
+                $speeds[] = (3600 * ($tripMeasures[$i]->getDistance() - $tripMeasures[$i - 1]->getDistance())) / $measureInterval;
             }
             $avg_speed = floor(max($speeds));
             $distance = end($tripMeasures)->getDistance();

@@ -31,8 +31,7 @@ class ReportGenerateCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Display report.')
-        ;
+            ->setDescription('Display report.');
     }
 
     /**
@@ -47,8 +46,7 @@ class ReportGenerateCommand extends Command
         $report = $this->reportGenerator->generateReport();
         $table
             ->setHeaders($report['headers'])
-            ->setRows($report['values'])
-        ;
+            ->setRows($report['values']);
         $table->render();
 
     }
